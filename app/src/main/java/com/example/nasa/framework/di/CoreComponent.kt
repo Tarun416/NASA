@@ -1,13 +1,13 @@
-package com.example.core.di
+package com.example.nasa.framework.di
 
+import com.example.core.data.PlanetaryRemoteSource
 import dagger.Component
-import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Singleton
 @Component(modules =[ NetworkModule::class])
 interface CoreComponent {
 
-    fun retrofit() : Retrofit
+    fun planetartService() : PlanetaryRemoteSource
 
 }
