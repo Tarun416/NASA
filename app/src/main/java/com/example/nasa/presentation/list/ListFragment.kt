@@ -13,17 +13,21 @@ import com.example.core.domain.PlanetaryResponse
 import com.example.core.networking.Outcome
 import com.example.nasa.R
 import com.example.nasa.framework.PostDH
+import com.example.nasa.presentation.detail.DetailsFragment
 import kotlinx.android.synthetic.main.fragment_list.*
 import java.io.IOException
 import javax.inject.Inject
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment() ,ListAdapter.OnPicClick {
+
 
 
     private val TAG: String = ListFragment.javaClass.name
     private lateinit var adapter: ListAdapter
 
+
     private val component by lazy { PostDH.listComponent() }
+    private lateinit var planetaryResponse: PlanetaryResponse
 
     @Inject
     lateinit var viewModelFactory: ListViewModelFactory
@@ -49,7 +53,7 @@ class ListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         component.inject(this)
 
-        adapter = ListAdapter(activity!!)
+        adapter = ListAdapter(activity!!,this)
         picturerv.layoutManager = LinearLayoutManager(activity!!)
         picturerv.adapter = adapter
         viewModel.fetchPictures()
@@ -75,7 +79,8 @@ class ListFragment : Fragment() {
 
                     is Outcome.Success -> {
                         Log.d(TAG, "initiateDataListener: Successfully loaded data")
-                        adapter.update(outcome.data)
+                        planetaryResponse = outcome.data
+                        adapter.update(planetaryResponse)
                     }
 
                     is Outcome.Failure -> {
@@ -96,6 +101,20 @@ class ListFragment : Fragment() {
 
                 }
             })
+
+    }
+
+    override fun onClick(pos: Int) {
+        val detailsFragment = DetailsFragment()
+        val args = Bundle()
+        args.putString("title",planetaryResponse.title)
+        args.putString("explanation",planetaryResponse.explanation)
+        args.putString("image",planetaryResponse.hdurl)
+        args.putString("version",planetaryResponse.serviceVersion)
+        detailsFragment.arguments = args
+        activity!!.supportFragmentManager.beginTransaction()
+            .replace(R.id.content, detailsFragment)
+            .commit()
     }
 
 

@@ -10,7 +10,7 @@ import com.example.core.domain.PlanetaryResponse
 import com.example.nasa.R
 import kotlinx.android.synthetic.main.item_list.view.*
 
-class ListAdapter(private val context: Context, private val planetaryResponse : MutableList<PlanetaryResponse> = mutableListOf()) : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
+class ListAdapter(private val context: Context, private val onPicClick: OnPicClick, private val planetaryResponse : MutableList<PlanetaryResponse> = mutableListOf() ) : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -23,6 +23,8 @@ class ListAdapter(private val context: Context, private val planetaryResponse : 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
        Glide.with(context).load(planetaryResponse[position].url).into(holder.picture)
+
+        holder.picture.setOnClickListener{onPicClick.onClick(position)}
     }
 
 
@@ -35,6 +37,11 @@ class ListAdapter(private val context: Context, private val planetaryResponse : 
         planetaryResponse.clear()
         planetaryResponse.add(response)
         notifyDataSetChanged()
+    }
+
+    interface OnPicClick
+    {
+        fun onClick(pos : Int)
     }
 
 }

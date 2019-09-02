@@ -8,6 +8,7 @@ import com.example.core.interactors.GetPictures
 import com.example.nasa.framework.PlanetaryRemoteData
 import com.example.nasa.framework.PlanetaryRepoImpl
 import com.example.nasa.framework.di.CoreComponent
+import com.example.nasa.presentation.detail.DetailsFragment
 import com.example.nasa.presentation.list.ListViewModelFactory
 import dagger.Component
 import dagger.Module
@@ -21,6 +22,7 @@ interface ListComponent
 {
     fun planetaryService() : PlanetaryService
     fun inject( fragment :com.example.nasa.presentation.list.ListFragment)
+    fun inject(fragment : DetailsFragment)
 }
 
 
