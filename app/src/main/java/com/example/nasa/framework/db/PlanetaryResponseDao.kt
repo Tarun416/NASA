@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.core.domain.PlanetaryResponse
+import io.reactivex.Flowable
 
 @Dao
 interface PlanetaryResponseDao {
@@ -13,7 +14,7 @@ interface PlanetaryResponseDao {
     fun addPlanetaryResponse(planetaryResponse: PlanetaryResponseEntity)
 
     @Query("SELECT * FROM PlanetaryResponseEntity")
-    fun getList(): List<PlanetaryResponse>
+    fun getList(): Flowable<List<PlanetaryResponse>>
 
 
 }

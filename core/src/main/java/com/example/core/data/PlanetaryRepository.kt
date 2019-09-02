@@ -1,6 +1,12 @@
 package com.example.core.data
 
-class PlanetaryRepository(val remote: PlanetaryDataContract.Repository) {
+import com.example.core.domain.PlanetaryResponse
 
-    fun getPictures() = remote.getPictures()
+class PlanetaryRepository(val local: PlanetaryDataContract.Repository)  {
+
+    fun getPictureFromDb() = local.fetchPictureFromDb()
+
+  /*  fun getPicturesFromDb() = local.getPlanetaryList()
+
+    fun savePlanetaryResponseIntoDb(resp : PlanetaryResponse) = local.savePlanetaryResponse(resp)*/
 }

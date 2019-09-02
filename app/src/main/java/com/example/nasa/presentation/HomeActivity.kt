@@ -7,6 +7,11 @@ import com.example.nasa.presentation.list.ListFragment
 
 class HomeActivity : AppCompatActivity()
 {
+    override fun onBackPressed() {
+        super.onBackPressed()
+        supportFragmentManager.popBackStack()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)

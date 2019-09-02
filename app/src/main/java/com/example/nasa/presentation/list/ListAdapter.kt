@@ -32,10 +32,10 @@ class ListAdapter(private val context: Context, private val onPicClick: OnPicCli
          val picture = itemView.img
     }
 
-    fun update(response : PlanetaryResponse)
+    fun update(response : List<PlanetaryResponse>)
     {
         planetaryResponse.clear()
-        planetaryResponse.add(response)
+        planetaryResponse.addAll(response)
         notifyDataSetChanged()
     }
 

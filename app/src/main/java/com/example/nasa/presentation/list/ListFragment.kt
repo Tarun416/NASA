@@ -27,7 +27,7 @@ class ListFragment : Fragment() ,ListAdapter.OnPicClick {
 
 
     private val component by lazy { PostDH.listComponent() }
-    private lateinit var planetaryResponse: PlanetaryResponse
+    private lateinit var planetaryResponse: List<PlanetaryResponse>
 
     @Inject
     lateinit var viewModelFactory: ListViewModelFactory
@@ -65,7 +65,7 @@ class ListFragment : Fragment() ,ListAdapter.OnPicClick {
         //Observe the outcome and update state of the screen  accordingly
         viewModel.postsOutcome.observe(
             this,
-            androidx.lifecycle.Observer<Outcome<PlanetaryResponse>> { outcome ->
+            androidx.lifecycle.Observer<Outcome<List<PlanetaryResponse>>> { outcome ->
                 Log.d(TAG, "initiateDataListener: $outcome")
                 when (outcome) {
 
@@ -107,13 +107,14 @@ class ListFragment : Fragment() ,ListAdapter.OnPicClick {
     override fun onClick(pos: Int) {
         val detailsFragment = DetailsFragment()
         val args = Bundle()
-        args.putString("title",planetaryResponse.title)
-        args.putString("explanation",planetaryResponse.explanation)
-        args.putString("image",planetaryResponse.hdurl)
-        args.putString("version",planetaryResponse.serviceVersion)
+        args.putString("title",planetaryResponse[pos].title)
+        args.putString("explanation",planetaryResponse[pos].explanation)
+        args.putString("image",planetaryResponse[pos].hdurl)
+        args.putString("version",planetaryResponse[pos].serviceVersion)
         detailsFragment.arguments = args
         activity!!.supportFragmentManager.beginTransaction()
             .replace(R.id.content, detailsFragment)
+            .addToBackStack("detail")
             .commit()
     }
 

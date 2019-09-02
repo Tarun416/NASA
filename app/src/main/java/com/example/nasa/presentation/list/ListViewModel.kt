@@ -16,7 +16,7 @@ class ListViewModel(
     private val repo : PlanetaryDataContract.Repository
 ) : ViewModel() {
 
-    val postsOutcome: LiveData<Outcome<PlanetaryResponse>> by lazy {
+    val postsOutcome: LiveData<Outcome<List<PlanetaryResponse>>> by lazy {
         //Convert publish subject to livedata
         repo.postFetchOutcome.toLiveData(compositeDisposable)
     }
