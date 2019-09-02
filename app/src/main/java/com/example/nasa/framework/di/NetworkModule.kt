@@ -1,6 +1,7 @@
 package com.example.nasa.framework.di
 
-import com.example.core.data.PlanetaryRemoteSource
+import com.example.core.data.remote.PlanetaryService
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
@@ -19,7 +20,7 @@ class NetworkModule {
                          rxJava2CallAdapterFactory: RxJava2CallAdapterFactory,
                          okHttpClient: OkHttpClient
     ) : Retrofit {
-         return Retrofit.Builder().baseUrl("https://api.nasa.gov/planetary/apod")
+         return Retrofit.Builder().baseUrl("https://api.nasa.gov/")
              .addConverterFactory(gsonConverterFactory)
              .addCallAdapterFactory(rxJava2CallAdapterFactory)
              .client(okHttpClient)
@@ -27,9 +28,9 @@ class NetworkModule {
     }
 
     @Provides
-    fun providePlanetaryService(retrofit: Retrofit) : PlanetaryRemoteSource
+    fun providePlanetaryService(retrofit: Retrofit) : PlanetaryService
     {
-        return retrofit.create(PlanetaryRemoteSource::class.java)
+        return retrofit.create(PlanetaryService::class.java)
     }
 
     @Provides
@@ -41,6 +42,7 @@ class NetworkModule {
             .writeTimeout(30, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
 
+        client.addNetworkInterceptor(StethoInterceptor())
 
         return client.build()
     }

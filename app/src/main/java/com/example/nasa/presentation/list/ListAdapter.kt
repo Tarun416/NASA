@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.core.domain.PlanetaryResponse
 import com.example.nasa.R
 import kotlinx.android.synthetic.main.item_list.view.*
 
-class ListAdapter(private val context: Context) : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
+class ListAdapter(private val context: Context, private val planetaryResponse : MutableList<PlanetaryResponse> = mutableListOf()) : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -17,16 +18,23 @@ class ListAdapter(private val context: Context) : RecyclerView.Adapter<ListAdapt
     }
 
     override fun getItemCount(): Int {
-        return 0
+        return planetaryResponse.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-       Glide.with(context).load("").into(holder.picture)
+       Glide.with(context).load(planetaryResponse[position].url).into(holder.picture)
     }
 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
          val picture = itemView.img
+    }
+
+    fun update(response : PlanetaryResponse)
+    {
+        planetaryResponse.clear()
+        planetaryResponse.add(response)
+        notifyDataSetChanged()
     }
 
 }
