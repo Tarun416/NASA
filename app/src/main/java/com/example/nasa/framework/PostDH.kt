@@ -1,7 +1,7 @@
 package com.example.nasa.framework
 
-import com.example.nasa.framework.list.di.DaggerListComponent
-import com.example.nasa.framework.list.di.ListComponent
+import com.example.nasa.presentation.list.di.DaggerListComponent
+import com.example.nasa.presentation.list.di.ListComponent
 import javax.inject.Singleton
 
 @Singleton

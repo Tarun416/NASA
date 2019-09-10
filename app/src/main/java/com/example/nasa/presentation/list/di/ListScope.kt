@@ -1,4 +1,4 @@
-package com.example.nasa.framework.list.di
+package com.example.nasa.presentation.list.di
 
 import javax.inject.Scope
 

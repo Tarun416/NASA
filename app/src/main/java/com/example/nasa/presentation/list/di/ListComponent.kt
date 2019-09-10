@@ -1,13 +1,11 @@
-package com.example.nasa.framework.list.di
+package com.example.nasa.presentation.list.di
 
 import android.content.Context
-import com.example.core.data.PlanetaryDataContract
 import com.example.core.data.PlanetaryRepository
 import com.example.core.data.remote.PlanetaryService
 import com.example.core.interactors.GetPictures
 import com.example.nasa.framework.PlanetaryLocalData
 import com.example.nasa.framework.PlanetaryRemoteData
-import com.example.nasa.framework.PlanetaryRepoImpl
 import com.example.nasa.framework.db.NasaDatabase
 import com.example.nasa.framework.di.CoreComponent
 import com.example.nasa.presentation.detail.DetailsFragment
@@ -35,24 +33,20 @@ class ListModule {
     @ListScope
     fun listViewModelFactory(
         interactors: GetPictures,
-        compositeDisposable: CompositeDisposable,
-        repo: PlanetaryDataContract.Repository
-    ) = ListViewModelFactory(interactors, compositeDisposable, repo)
+        compositeDisposable: CompositeDisposable
+    ) = ListViewModelFactory(interactors, compositeDisposable)
 
     @Provides
     @ListScope
     fun interactors(planetaryRepo: PlanetaryRepository) = GetPictures(planetaryRepo)
 
-    @Provides
-    @ListScope
-    fun planetaryRep(repo: PlanetaryDataContract.Repository) = PlanetaryRepository(repo)
 
     @Provides
     @ListScope
     fun listrepo(
-        local: PlanetaryDataContract.Local,
-        remote: PlanetaryDataContract.Remote
-    ): PlanetaryDataContract.Repository = PlanetaryRepoImpl(local, remote)
+        local: PlanetaryLocalData,
+        remote: PlanetaryRemoteData
+    ): PlanetaryRepository = PlanetaryRepository(remote,local)
 
 
     @Provides
@@ -61,12 +55,12 @@ class ListModule {
 
     @Provides
     @ListScope
-    fun remoteData(planetaryService: PlanetaryService): PlanetaryDataContract.Remote =
+    fun remoteData(planetaryService: PlanetaryService): PlanetaryRemoteData =
         PlanetaryRemoteData(planetaryService)
 
     @Provides
     @ListScope
-    fun localData(planetaryDb: NasaDatabase): PlanetaryDataContract.Local =
+    fun localData(planetaryDb: NasaDatabase): PlanetaryLocalData =
         PlanetaryLocalData(planetaryDb)
 
     @Provides

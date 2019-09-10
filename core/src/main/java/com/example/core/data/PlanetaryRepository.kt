@@ -1,12 +1,13 @@
 package com.example.core.data
 
+import com.example.core.data.local.PlanetaryLocal
+import com.example.core.data.remote.PlanetaryService
 import com.example.core.domain.PlanetaryResponse
 
-class PlanetaryRepository(val local: PlanetaryDataContract.Repository)  {
+class PlanetaryRepository(val remote: PlanetaryService , val local : PlanetaryLocal)  {
 
-    fun getPictureFromDb() = local.fetchPictureFromDb()
+    fun getPictureFromDb() = local.getPicturesFromDB()
+    fun getPictureFromServer(apikey : String) = remote.getPictures(apikey)
+    fun savePictureIntoDb(response: PlanetaryResponse) = local.savePictureIntoDb(response)
 
-  /*  fun getPicturesFromDb() = local.getPlanetaryList()
-
-    fun savePlanetaryResponseIntoDb(resp : PlanetaryResponse) = local.savePlanetaryResponse(resp)*/
 }
