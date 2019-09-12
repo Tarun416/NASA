@@ -1,4 +1,4 @@
-package com.example.nasa.framework.di
+package com.example.core.di
 
 import com.example.core.data.remote.PlanetaryService
 import com.facebook.stetho.okhttp3.StethoInterceptor

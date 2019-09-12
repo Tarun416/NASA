@@ -1,4 +1,4 @@
-package com.example.nasa.framework.di
+package com.example.core.di
 
 import android.content.Context
 import dagger.Module

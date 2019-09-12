@@ -1,13 +1,14 @@
 package com.example.nasa.presentation.list.di
 
 import android.content.Context
-import com.example.core.data.PlanetaryRepository
 import com.example.core.data.remote.PlanetaryService
 import com.example.core.interactors.GetPictures
-import com.example.nasa.framework.PlanetaryLocalData
-import com.example.nasa.framework.PlanetaryRemoteData
-import com.example.nasa.framework.db.NasaDatabase
-import com.example.nasa.framework.di.CoreComponent
+import com.example.nasa.framework.cache.PlanetaryLocalImpl
+import com.example.core.data.PlanetaryRemoteImpl
+import com.example.nasa.framework.db.PlanetaryDatabase
+import com.example.core.di.CoreComponent
+import com.example.core.domain.repository.PlanetaryRepository
+import com.example.nasa.framework.PlanetaryDataRepository
 import com.example.nasa.presentation.detail.DetailsFragment
 import com.example.nasa.presentation.list.ListViewModelFactory
 import dagger.Component
@@ -33,20 +34,21 @@ class ListModule {
     @ListScope
     fun listViewModelFactory(
         interactors: GetPictures,
-        compositeDisposable: CompositeDisposable
-    ) = ListViewModelFactory(interactors, compositeDisposable)
+        compositeDisposable: CompositeDisposable,
+        repository : PlanetaryDataRepository
+    ) = ListViewModelFactory(interactors, compositeDisposable,repository)
 
     @Provides
     @ListScope
-    fun interactors(planetaryRepo: PlanetaryRepository) = GetPictures(planetaryRepo)
+    fun interactors(planetaryRepo: PlanetaryDataRepository) = GetPictures(planetaryRepo)
 
 
     @Provides
     @ListScope
     fun listrepo(
-        local: PlanetaryLocalData,
-        remote: PlanetaryRemoteData
-    ): PlanetaryRepository = PlanetaryRepository(remote,local)
+        local: PlanetaryLocalImpl,
+        remote: PlanetaryRemoteImpl
+    ): PlanetaryDataRepository = PlanetaryDataRepository(remote,local)
 
 
     @Provides
@@ -55,17 +57,17 @@ class ListModule {
 
     @Provides
     @ListScope
-    fun remoteData(planetaryService: PlanetaryService): PlanetaryRemoteData =
-        PlanetaryRemoteData(planetaryService)
+    fun remoteData(planetaryService: PlanetaryService): PlanetaryRemoteImpl =
+        PlanetaryRemoteImpl(planetaryService)
 
     @Provides
     @ListScope
-    fun localData(planetaryDb: NasaDatabase): PlanetaryLocalData =
-        PlanetaryLocalData(planetaryDb)
+    fun localData(planetaryDb: PlanetaryDatabase): PlanetaryLocalImpl =
+        PlanetaryLocalImpl(planetaryDb)
 
     @Provides
     @ListScope
-    fun planetaryDb(context: Context): NasaDatabase = NasaDatabase.getInstance(context)
+    fun planetaryDb(context: Context): PlanetaryDatabase = PlanetaryDatabase.getInstance(context)
 
     @Provides
     @ListScope
